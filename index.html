@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+ 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login - BlueJob</title>
-  <link rel="stylesheet" href="jobs.css">
   <style>
     body { display: flex; flex-direction: column; min-height: 100vh; font-family: 'Segoe UI', Arial, sans-serif; background: #f9f9f9; color: #333; }
     header { display: flex; align-items: center; justify-content: center; padding: 20px; background: #fff; border-bottom: 1px solid #ddd; }
@@ -14,7 +14,7 @@
     .login-card { background: white; padding: 40px 30px; border-radius: 10px; box-shadow: 0 0 15px rgba(0,0,0,0.05); max-width: 400px; width: 100%; text-align: center; }
     
     .login-card h2 { margin-bottom: 25px; color: #007bff; font-size: 26px; }
-    .login-card input { width: 100%; padding: 12px 15px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 8px; font-size: 14px; }
+    .login-card input { width: 95%; padding: 12px 15px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 8px; font-size: 14px; }
     
     .login-card .button { width: 100%; padding: 12px 0; background: #007bff; color: #fff; font-size: 16px; border: none; border-radius: 8px; cursor: pointer; transition: 0.2s; }
     .login-card .button:hover { background: #005fcc; }
@@ -26,25 +26,6 @@
     .login-card .link { color: #007bff; text-decoration: none; }
     .login-card .link:hover { text-decoration: underline; }
   </style>
-  <script>
-    let generatedCode = "";
-
-    function sendCode() {
-      const email = document.getElementById("email").value;
-      if (!email) { alert("Please enter your email first."); return; }
-      generatedCode = Math.floor(100000 + Math.random() * 900000);
-      alert("Verification code sent to " + email + " (" + generatedCode + ")");
-      document.getElementById("verifyBox").style.display = "block";
-    }
-
-    function checkCode() {
-      const entered = document.getElementById("code").value;
-      if (entered.length === 6 && entered == generatedCode) {
-        alert("Verification successful! Logging in...");
-        window.location.href = "jobs.html";
-      }
-    }
-  </script>
 </head>
 <body>
   <header>
@@ -62,8 +43,55 @@
         <input id="code" type="text" maxlength="6" placeholder="Enter verification code" oninput="checkCode()">
       </div>
 
-      <p>Don’t have an account? <a href="signup.html" class="link">Sign up</a></p>
+      <p>Don’t have an account? <a href="BlueJob/signup.html" class="link">Sign up</a></p>
     </div>
   </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+   <script>
+let generatedCode = "";
+emailjs.init("9t9hQw3XFYkpeP45U");
+
+
+
+function sendCode() {
+  const email = document.getElementById("email").value.trim();
+  if (!email) {
+    alert("Please enter your email first.");
+    return;
+  }
+
+  // Generate a 6-digit code
+  generatedCode = Math.floor(100000 + Math.random() * 900000);
+
+  // Set OTP expiration time (15 minutes from now)
+  const expiration = new Date(Date.now() + 15 * 60 * 1000);
+  const time = expiration.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+
+  // Send email using EmailJS
+  emailjs.send("service_ltkx36w", "template_yeq3txw", {
+    email: email,           // recipient
+    passcode: generatedCode, // OTP code
+    time: time              // expiration time
+  })
+  .then(function(response) {
+    console.log("Email sent successfully!", response.status, response.text);
+    alert("Verification code sent to " + email);
+    document.getElementById("verifyBox").style.display = "block";
+  }, function(error) {
+    console.error("Failed to send email:", error);
+    alert("Failed to send verification code. Please try again.");
+  });
+}
+
+function checkCode() {
+  const entered = document.getElementById("code").value;
+  if (entered.length === 6 && entered == generatedCode) {
+    alert("Verification successful! Logging in...");
+    window.location.href = "BlueJob/jobs.html";
+  }
+}
+</script>
+
 </body>
 </html>
