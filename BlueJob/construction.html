@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Construction Foreman - BlueJob</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div class="left-header"><div class="logo">BlueJob</div></div>
+  <div class="search-bar"><input type="text" placeholder="Search jobs, companies, or skills..."></div>
+  <nav>
+    <a href="jobs.html">Find Jobs</a>
+    <a href="#">Companies</a>
+    <a href="#">Resources</a>
+    <button class="back-btn" id="backBtn">← Back</button>
+  </nav>
+</header>
+
+<div class="job-page">
+  <main>
+    <div class="job-header">
+      <h2>Construction Foreman</h2>
+      <span class="tag urgent">Urgent Hire</span>
+      <span class="tag construction">Construction</span>
+      <div class="company">BuildRight Construction</div>
+      <div class="details">📍 Quezon City, Metro Manila · ₱50,000–₱60,000/month · Full-time</div>
+      <div class="details">Posted 3 days ago</div>
+    </div>
+
+    <h3>Job Description</h3>
+    <p>Lead and supervise construction teams to ensure projects are completed on time, safely, and within budget.</p>
+
+    <h3>Responsibilities</h3>
+    <ul>
+      <li>Oversee daily operations on construction sites.</li>
+      <li>Coordinate with engineers, subcontractors, and clients.</li>
+      <li>Ensure compliance with safety standards.</li>
+      <li>Manage project schedules and resources.</li>
+    </ul>
+
+    <h3>Requirements</h3>
+    <ul>
+      <li>3+ years experience in construction management.</li>
+      <li>Knowledge of building codes and regulations.</li>
+      <li>Strong leadership and communication skills.</li>
+      <li>Ability to work in a fast-paced environment.</li>
+    </ul>
+
+    <h3>Benefits & Perks</h3>
+    <ul>
+      <li>Competitive monthly salary</li>
+      <li>Overtime and project bonuses</li>
+      <li>Health coverage</li>
+      <li>Company vehicle allowance</li>
+    </ul>
+
+    <a href="#" class="apply-btn" id="openFormBtn">Apply Now</a>
+    <div class="confirmation" id="confirmationMsg">Application Sent!</div>
+  </main>
+
+  <aside>
+    <h2>About BuildRight Construction</h2>
+    <p>Leading construction company specializing in commercial and residential projects across Metro Manila. Focused on quality and safety.</p>
+
+    <h2>Similar Jobs</h2>
+    <ul>
+      <li><strong>Site Supervisor</strong><br>MetroWorks — ₱45,000–₱55,000/month</li>
+      <li><strong>Project Engineer</strong><br>BuildPro — ₱50,000/month</li>
+    </ul>
+  </aside>
+</div>
+
+<!-- Popup Form -->
+<div class="popup-overlay" id="popupForm">
+  <div class="popup-form">
+    <span class="close-btn" id="closeForm">&times;</span>
+    <h3>Apply for Construction Foreman</h3>
+    <form id="jobApplicationForm">
+      <input type="text" placeholder="Name" required>
+      <input type="email" placeholder="Email" required>
+      <input type="tel" placeholder="Phone" required>
+      <textarea placeholder="Short Message" rows="4" required></textarea>
+      <button type="submit">Submit Application</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  const backBtn = document.getElementById('backBtn');
+  backBtn.addEventListener('click', ()=>{document.referrer?history.back():window.location.href='jobs.html';});
+
+  const openFormBtn = document.getElementById('openFormBtn');
+  const popupForm = document.getElementById('popupForm');
+  const closeForm = document.getElementById('closeForm');
+  const jobForm = document.getElementById('jobApplicationForm');
+  const confirmationMsg = document.getElementById('confirmationMsg');
+
+  openFormBtn.addEventListener('click',(e)=>{e.preventDefault();popupForm.style.display='flex';confirmationMsg.style.display='none';});
+  closeForm.addEventListener('click',()=>{popupForm.style.display='none';});
+  jobForm.addEventListener('submit',(e)=>{e.preventDefault();popupForm.style.display='none';confirmationMsg.style.display='block';jobForm.reset();});
+</script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Resources - BlueJob</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div class="left-header"><div class="logo">BlueJob</div></div>
+  <div class="search-bar"><input type="text" placeholder="Search resources..."></div>
+  <nav>
+    <a href="jobs.html">Find Jobs</a>
+    <a href="company.html">Companies</a>
+    <a href="resources.html">Resources</a>
+    <button class="back-btn" id="backBtn">← Back</button>
+  </nav>
+</header>
+
+<main class="resource-page">
+  <h2>Resources</h2>
+  <p>Helpful guides, templates, and tips to boost your career.</p>
+
+  <div class="resource-list">
+    <div class="resource-card">
+      <h3>Resume Templates</h3>
+      <p>Download free, ready-to-use resume templates for electricians, plumbers, and HVAC technicians.</p>
+      <a href="#">Download</a>
+    </div>
+    <div class="resource-card">
+      <h3>Interview Tips</h3>
+      <p>Learn how to ace your interviews with industry-specific advice.</p>
+      <a href="#">Read More</a>
+    </div>
+    <div class="resource-card">
+      <h3>Salary Insights</h3>
+      <p>Check the average salaries for different roles and industries in Metro Manila.</p>
+      <a href="#">Explore</a>
+    </div>
+    <div class="resource-card">
+      <h3>Online Courses</h3>
+      <p>Improve your skills with online certification and training programs.</p>
+      <a href="#">Enroll</a>
+    </div>
+    <div class="resource-card">
+      <h3>Career Guides</h3>
+      <p>Step-by-step guides to start or advance your career in electrical, plumbing, and construction work.</p>
+      <a href="#">Learn More</a>
+    </div>
+  </div>
+</main>
+
+<script>
+  const backBtn = document.getElementById('backBtn');
+  backBtn.addEventListener('click', ()=>{document.referrer?history.back():window.location.href='jobs.html';});
+</script>
+</body>
+</html>

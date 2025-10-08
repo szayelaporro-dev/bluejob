@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Master Electrician - BlueJob</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div class="left-header"><div class="logo">BlueJob</div></div>
+  <div class="search-bar"><input type="text" placeholder="Search jobs, companies, or skills..."></div>
+  <nav>
+    <a href="jobs.html">Find Jobs</a>
+    <a href="#">Companies</a>
+    <a href="#">Resources</a>
+    <button class="back-btn" id="backBtn">← Back</button>
+  </nav>
+</header>
+
+<div class="job-page">
+  <main>
+    <div class="job-header">
+      <h2>Master Electrician</h2>
+      <span class="tag electrical">Electrical</span>
+      <div class="company">MetroWorks</div>
+      <div class="details">📍 Quezon City · ₱220/hour · Full-time</div>
+      <div class="details">Posted 2 days ago</div>
+    </div>
+
+    <h3>Job Description</h3>
+    <p>Lead complex electrical projects, design and install systems, supervise electricians, and ensure all work meets technical standards and safety codes.</p>
+
+    <h3>Responsibilities</h3>
+    <ul>
+      <li>Supervise installation teams and oversee electrical projects</li>
+      <li>Design and install high-voltage systems</li>
+      <li>Ensure compliance with safety and technical codes</li>
+      <li>Provide training and mentorship to junior electricians</li>
+    </ul>
+
+    <h3>Requirements</h3>
+    <ul>
+      <li>Master Electrician License</li>
+      <li>5+ years of experience in electrical projects</li>
+      <li>Leadership and technical skills</li>
+      <li>Strong problem-solving and communication abilities</li>
+    </ul>
+
+    <h3>Benefits & Perks</h3>
+    <ul>
+      <li>High hourly pay</li>
+      <li>Health insurance and bonuses</li>
+      <li>Professional training opportunities</li>
+      <li>Company-provided equipment and tools</li>
+    </ul>
+
+    <a href="#" class="apply-btn" id="openFormBtn">Apply Now</a>
+    <div class="confirmation" id="confirmationMsg">Application Sent!</div>
+  </main>
+
+  <aside>
+    <h2>About MetroWorks</h2>
+    <p>MetroWorks specializes in large-scale electrical projects, delivering safe and high-quality electrical solutions across commercial and residential buildings.</p>
+
+    <h2>Similar Jobs</h2>
+    <ul>
+      <li><strong>Experienced Electrician</strong><br>PowerTech — ₱180–220/hour</li>
+      <li><strong>Maintenance Electrician</strong><br>BuildRight — ₱200/hour</li>
+    </ul>
+  </aside>
+</div>
+
+<!-- Popup Form -->
+<div class="popup-overlay" id="popupForm">
+  <div class="popup-form">
+    <span class="close-btn" id="closeForm">&times;</span>
+    <h3>Apply for Master Electrician</h3>
+    <form id="jobApplicationForm">
+      <input type="text" placeholder="Name" required>
+      <input type="email" placeholder="Email" required>
+      <input type="tel" placeholder="Phone" required>
+      <textarea placeholder="Short Message" rows="4" required></textarea>
+      <button type="submit">Submit Application</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  const backBtn = document.getElementById('backBtn');
+  backBtn.addEventListener('click', ()=>{document.referrer?history.back():window.location.href='jobs.html';});
+
+  const openFormBtn = document.getElementById('openFormBtn');
+  const popupForm = document.getElementById('popupForm');
+  const closeForm = document.getElementById('closeForm');
+  const jobForm = document.getElementById('jobApplicationForm');
+  const confirmationMsg = document.getElementById('confirmationMsg');
+
+  openFormBtn.addEventListener('click',(e)=>{e.preventDefault();popupForm.style.display='flex';confirmationMsg.style.display='none';});
+  closeForm.addEventListener('click',()=>{popupForm.style.display='none';});
+  jobForm.addEventListener('submit',(e)=>{e.preventDefault();popupForm.style.display='none';confirmationMsg.style.display='block';jobForm.reset();});
+</script>
+</body>
+</html>

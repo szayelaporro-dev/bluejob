@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Professional Plumber - BlueJob</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div class="left-header"><div class="logo">BlueJob</div></div>
+  <div class="search-bar"><input type="text" placeholder="Search jobs, companies, or skills..."></div>
+  <nav>
+    <a href="jobs.html">Find Jobs</a>
+    <a href="#">Companies</a>
+    <a href="#">Resources</a>
+    <button class="back-btn" id="backBtn">← Back</button>
+  </nav>
+</header>
+
+<div class="job-page">
+  <main>
+    <div class="job-header">
+      <h2>Professional Plumber</h2>
+      <span class="tag plumbing">Plumbing</span>
+      <div class="company">FlowPro Plumbing</div>
+      <div class="details">📍 Pasig City · ₱150–₱180/hour · Full-time</div>
+      <div class="details">Posted 4 days ago</div>
+    </div>
+
+    <h3>Job Description</h3>
+    <p>Install, repair, and maintain water and drainage systems for residential and commercial properties, ensuring efficiency and compliance with safety codes.</p>
+
+    <h3>Responsibilities</h3>
+    <ul>
+      <li>Repair and replace pipes, fixtures, and fittings</li>
+      <li>Diagnose plumbing issues and provide solutions</li>
+      <li>Perform maintenance and inspections</li>
+      <li>Ensure all work meets safety and building codes</li>
+    </ul>
+
+    <h3>Requirements</h3>
+    <ul>
+      <li>Plumbing certification</li>
+      <li>2+ years experience in plumbing work</li>
+      <li>Problem-solving skills</li>
+      <li>Ability to work independently or in teams</li>
+    </ul>
+
+    <h3>Benefits & Perks</h3>
+    <ul>
+      <li>Competitive pay and overtime</li>
+      <li>Health insurance</li>
+      <li>Paid training and equipment support</li>
+      <li>Company-provided tools</li>
+    </ul>
+
+    <a href="#" class="apply-btn" id="openFormBtn">Apply Now</a>
+    <div class="confirmation" id="confirmationMsg">Application Sent!</div>
+  </main>
+
+  <aside>
+    <h2>About FlowPro Plumbing</h2>
+    <p>Trusted plumbing service provider in Metro Manila, focusing on reliable installation, maintenance, and emergency repairs for homes and offices.</p>
+
+    <h2>Similar Jobs</h2>
+    <ul>
+      <li><strong>Maintenance Plumber</strong><br>MetroWorks — ₱160/hour</li>
+      <li><strong>Pipefitter</strong><br>BuildRight — ₱155/hour</li>
+    </ul>
+  </aside>
+</div>
+
+<!-- Popup Form -->
+<div class="popup-overlay" id="popupForm">
+  <div class="popup-form">
+    <span class="close-btn" id="closeForm">&times;</span>
+    <h3>Apply for Professional Plumber</h3>
+    <form id="jobApplicationForm">
+      <input type="text" placeholder="Name" required>
+      <input type="email" placeholder="Email" required>
+      <input type="tel" placeholder="Phone" required>
+      <textarea placeholder="Short Message" rows="4" required></textarea>
+      <button type="submit">Submit Application</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  const backBtn = document.getElementById('backBtn');
+  backBtn.addEventListener('click', ()=>{document.referrer?history.back():window.location.href='jobs.html';});
+
+  const openFormBtn = document.getElementById('openFormBtn');
+  const popupForm = document.getElementById('popupForm');
+  const closeForm = document.getElementById('closeForm');
+  const jobForm = document.getElementById('jobApplicationForm');
+  const confirmationMsg = document.getElementById('confirmationMsg');
+
+  openFormBtn.addEventListener('click',(e)=>{e.preventDefault();popupForm.style.display='flex';confirmationMsg.style.display='none';});
+  closeForm.addEventListener('click',()=>{popupForm.style.display='none';});
+  jobForm.addEventListener('submit',(e)=>{e.preventDefault();popupForm.style.display='none';confirmationMsg.style.display='block';jobForm.reset();});
+</script>
+</body>
+</html>

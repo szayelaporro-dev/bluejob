@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BlueJob - All Jobs</title>
+  <link rel="stylesheet" href="jobs.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo">BlueJob</div>
+
+    <div class="search-bar">
+      <input type="text" id="search" placeholder="Search jobs, companies, or skills...">
+    </div>
+
+    <nav>
+      <a href="#">Find Jobs</a>
+      <a href="company.html">Companies</a>
+      <a href="resources.html">Resources</a>
+      <a href="login.html">LogOut</a>
+      <a class="post-job" id="openPostForm">Post a Job</a>
+    </nav>
+  </header>
+
+  <!-- POPUP FORM -->
+  <div class="popup" id="postJobPopup">
+    <div class="popup-content">
+      <h3>Post a Job</h3>
+      <input type="text" id="jobTitle" placeholder="Job Title" required>
+      <input type="text" id="companyName" placeholder="Company Name" required>
+      <input type="text" id="location" placeholder="Location" required>
+      <select id="category">
+        <option value="electrical">Electrical</option>
+        <option value="construction">Construction</option>
+        <option value="hvac">HVAC</option>
+        <option value="plumbing">Plumbing</option>
+      </select>
+      <select id="jobType">
+        <option value="full-time">Full-time</option>
+        <option value="part-time">Part-time</option>
+      </select>
+      <input type="text" id="salary" placeholder="Salary (e.g. ₱200/hour)" required>
+      <button id="submitJob">Post</button>
+      <button class="close-popup" id="closePopup">Cancel</button>
+    </div>
+  </div>
+
+  <!-- JOB PAGE -->
+  <div class="container">
+    <aside>
+      <h3>Filter Jobs</h3>
+      <h4>Trade Categories</h4>
+      <label><input type="checkbox" value="electrical" class="filter"> Electrical</label>
+      <label><input type="checkbox" value="construction" class="filter"> Construction</label>
+      <label><input type="checkbox" value="hvac" class="filter"> HVAC</label>
+      <label><input type="checkbox" value="plumbing" class="filter"> Plumbing</label>
+
+      <h4>Job Type</h4>
+      <label><input type="checkbox" value="full-time" class="filter"> Full-time</label>
+      <label><input type="checkbox" value="part-time" class="filter"> Part-time</label>
+
+      <h4>Salary Range</h4>
+      <label><input type="checkbox" value="low" class="filter-salary"> ₱60-80/hour</label>
+      <label><input type="checkbox" value="mid" class="filter-salary"> ₱80-120/hour</label>
+      <label><input type="checkbox" value="high" class="filter-salary"> ₱120+/hour</label>
+    </aside>
+
+    <main>
+      <h2>All Jobs</h2>
+
+      <div id="jobList">
+        <div class="job-card" data-category="electrical" data-type="full-time" data-salary="low">
+          <div class="job-header">
+            <h3>Experienced Electrician</h3>
+            <span class="tag electrical">Electrical</span>
+          </div>
+          <div class="company">PowerTech Solutions</div>
+          <div class="details">📍 Makati City · ₱180–220/hour · Full-time</div>
+          <a href="electrician.html" class="view-btn">View Details</a>
+        </div>
+
+        <!-- Other jobs restored -->
+        <div class="job-card" data-category="construction" data-type="part-time" data-salary="mid">
+          <div class="job-header">
+            <h3>Construction Worker</h3>
+            <span class="tag construction">Construction</span>
+          </div>
+          <div class="company">BuildRight Corp.</div>
+          <div class="details">📍 Quezon City · ₱90–120/hour · Part-time</div>
+          <a href="construction.html" class="view-btn">View Details</a>
+        </div>
+
+        <div class="job-card" data-category="hvac" data-type="full-time" data-salary="high">
+          <div class="job-header">
+            <h3>HVAC Technician</h3>
+            <span class="tag hvac">HVAC</span>
+          </div>
+          <div class="company">CoolAir Systems</div>
+          <div class="details">📍 Pasig City · ₱150–180/hour · Full-time</div>
+          <a href="HVAC.html" class="view-btn">View Details</a>
+        </div>
+
+        <div class="job-card" data-category="plumbing" data-type="full-time" data-salary="mid">
+          <div class="job-header">
+            <h3>Plumber Needed</h3>
+            <span class="tag plumbing" style="background:#4caf50;">Plumbing</span>
+          </div>
+          <div class="company">FlowFix Services</div>
+          <div class="details">📍 Mandaluyong City · ₱100–120/hour · Full-time</div>
+          <a href="plumber.html" class="view-btn">View Details</a>
+        </div>
+
+        <div class="job-card" data-category="construction" data-type="full-time" data-salary="high">
+          <div class="job-header">
+            <h3>Site Supervisor</h3>
+            <span class="tag construction">Construction</span>
+          </div>
+          <div class="company">MetroBuild Development</div>
+          <div class="details">📍 Taguig City · ₱130–160/hour · Full-time</div>
+          <a href="supervisor.html" class="view-btn">View Details</a>
+        </div>
+
+        <div class="job-card" data-category="electrical" data-type="full-time" data-salary="high">
+          <div class="job-header">
+            <h3>Urgent Hiring: Master Electrician</h3>
+            <span class="tag urgent">Urgent</span>
+          </div>
+          <div class="company">LightWorks Engineering</div>
+          <div class="details">📍 Manila · ₱200+/hour · Full-time</div>
+          <a href="urgent.html" class="view-btn">View Details</a>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const searchInput = document.getElementById('search');
+    const filters = document.querySelectorAll('.filter');
+    const salaryFilters = document.querySelectorAll('.filter-salary');
+    const jobList = document.getElementById('jobList');
+    const openPostForm = document.getElementById('openPostForm');
+    const popup = document.getElementById('postJobPopup');
+    const closePopup = document.getElementById('closePopup');
+    const submitJob = document.getElementById('submitJob');
+
+    function filterJobs() {
+      const searchTerm = searchInput.value.toLowerCase();
+      const jobCards = jobList.querySelectorAll('.job-card');
+
+      const activeFilters = Array.from(filters)
+        .filter(f => f.checked)
+        .map(f => f.value);
+      const activeSalary = Array.from(salaryFilters)
+        .filter(f => f.checked)
+        .map(f => f.value);
+
+      jobCards.forEach(card => {
+        const title = card.querySelector('h3').textContent.toLowerCase();
+        const company = card.querySelector('.company').textContent.toLowerCase();
+        const category = card.dataset.category;
+        const type = card.dataset.type;
+        const salary = card.dataset.salary;
+
+        const matchesSearch = title.includes(searchTerm) || company.includes(searchTerm);
+        const matchesFilter = activeFilters.length === 0 || activeFilters.includes(category) || activeFilters.includes(type);
+        const matchesSalary = activeSalary.length === 0 || activeSalary.includes(salary);
+
+        card.style.display = (matchesSearch && matchesFilter && matchesSalary) ? 'block' : 'none';
+      });
+    }
+
+    searchInput.addEventListener('input', filterJobs);
+    filters.forEach(f => f.addEventListener('change', filterJobs));
+    salaryFilters.forEach(f => f.addEventListener('change', filterJobs));
+
+    // --- POST JOB POPUP ---
+    openPostForm.addEventListener('click', () => popup.classList.add('active'));
+    closePopup.addEventListener('click', () => popup.classList.remove('active'));
+
+    submitJob.addEventListener('click', () => {
+      const title = document.getElementById('jobTitle').value;
+      const company = document.getElementById('companyName').value;
+      const location = document.getElementById('location').value;
+      const category = document.getElementById('category').value;
+      const type = document.getElementById('jobType').value;
+      const salary = document.getElementById('salary').value;
+
+      if (!title || !company || !location || !salary) {
+        alert('Please fill in all fields.');
+        return;
+      }
+
+      const card = document.createElement('div');
+      card.classList.add('job-card');
+      card.dataset.category = category;
+      card.dataset.type = type;
+      card.dataset.salary = salary.includes('₱120') ? 'high' : 'low'; // simple detect
+
+      card.innerHTML = `
+        <div class="job-header">
+          <h3>${title}</h3>
+          <span class="tag ${category}">${category.charAt(0).toUpperCase() + category.slice(1)}</span>
+        </div>
+        <div class="company">${company}</div>
+        <div class="details">📍 ${location} · ${salary} · ${type.replace('-', ' ')}</div>
+        <a href="#" class="view-btn">View Details</a>
+      `;
+
+      jobList.appendChild(card);
+      popup.classList.remove('active');
+      document.querySelectorAll('.popup-content input').forEach(i => i.value = '');
+      filterJobs();
+    });
+
+    // --- HIDE POST A JOB FOR JOB SEEKERS ---
+    window.addEventListener('load', () => {
+      const accountType = sessionStorage.getItem('accountType'); // read stored account type
+      const postBtn = document.getElementById('openPostForm');
+      if (accountType === 'Job Seeker' && postBtn) {
+        postBtn.style.display = 'none';
+      }
+    });
+  </script>
+
+</body>
+</html>

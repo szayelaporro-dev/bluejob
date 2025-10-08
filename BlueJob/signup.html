@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Signup - BlueJob</title>
+  <link rel="stylesheet" href="jobs.css">
+<style>
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #f9f9f9;
+  color: #333;
+  margin: 0;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  background: #fff;
+  border-bottom: 1px solid #ddd;
+}
+
+header .logo {
+  font-size: 22px;
+  font-weight: 700;
+  color: #007bff;
+}
+
+.signup-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.signup-card {
+  background: white;
+  padding: 20px 15px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  width: 100%;
+  max-width: 360px;
+  text-align: left;
+}
+
+.signup-card h2 {
+  margin-bottom: 15px;
+  color: #007bff;
+  font-size: 22px;
+  text-align: center;
+}
+
+.signup-card label {
+  display: block;
+  margin-bottom: 3px;
+  font-weight: 500;
+  margin-top: 8px;
+  font-size: 13px;
+}
+
+.signup-card input,
+.signup-card select {
+  width: 100%;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 13px;
+  box-sizing: border-box;
+}
+
+.signup-card button {
+  width: 100%;
+  padding: 10px 0;
+  background: #007bff;
+  color: #fff;
+  font-size: 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: 0.2s;
+}
+
+.signup-card button:hover {
+  background: #005fcc;
+}
+
+.signup-card p {
+  margin-top: 15px;
+  font-size: 13px;
+  text-align: center;
+}
+
+.signup-card a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.signup-card a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive tweaks */
+@media (max-width: 400px) {
+  .signup-card {
+    padding: 15px 10px;
+  }
+  .signup-card h2 {
+    font-size: 20px;
+  }
+}
+</style>
+
+
+</head>
+<body>
+
+  <div class="signup-container">
+    <div class="signup-card">
+      <h2>Create Account</h2>
+      <form id="signupForm">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" required>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" required>
+
+        <label for="phone">Phone Number</label>
+        <input type="text" id="phone" required>
+
+        <label for="job">Job</label>
+        <input list="jobs" id="job" required>
+        <datalist id="jobs">
+          <option value="Experienced Electrician">
+          <option value="Construction Foreman">
+          <option value="HVAC Technician">
+          <option value="Professional Plumber">
+          <option value="Site Supervisor">
+          <option value="Master Electrician">
+        </datalist>
+
+        <label for="category">Job Category</label>
+        <input list="categories" id="category" required>
+        <datalist id="categories">
+          <option value="Electrical">
+          <option value="Construction">
+          <option value="HVAC">
+          <option value="Plumbing">
+          <option value="Supervision">
+        </datalist>
+
+        <label for="accountType">Account Type</label>
+        <input list="accountTypes" id="accountType" required onchange="togglePostJob()">
+        <datalist id="accountTypes">
+          <option value="Job Seeker">
+          <option value="Employer">
+        </datalist>
+
+        <label for="password">Password</label>
+        <input type="password" id="password" required>
+
+        <button type="submit">Create Account</button>
+      </form>
+      <p>Already have an account? <a href="login.html">Login</a></p>
+    </div>
+  </div>
+
+  <script>
+    const signupForm = document.getElementById("signupForm");
+
+    // Simulate account creation and redirect to jobs page
+    signupForm.addEventListener("submit", function(event){
+      event.preventDefault();
+      const name = document.getElementById("name").value;
+      const accountType = document.getElementById("accountType").value;
+
+      alert("Account created successfully!\nWelcome, " + name + " (" + accountType + ")");
+      
+      // Store account type in session storage (so you can hide Post a Job for job seekers)
+      sessionStorage.setItem("accountType", accountType);
+
+      window.location.href = "jobs.html";
+    });
+
+    // Hide Post a Job button if user is Job Seeker
+    function togglePostJob() {
+      const accountType = document.getElementById("accountType").value;
+      const postBtn = document.getElementById("postJobBtn");
+      if (postBtn) {
+        if (accountType === "Job Seeker") {
+          postBtn.style.display = "none";
+        } else {
+          postBtn.style.display = "inline-block";
+        }
+      }
+    }
+
+    // On page load, check stored account type to hide button if needed
+    window.addEventListener("load", function() {
+      const storedType = sessionStorage.getItem("accountType");
+      const postBtn = document.getElementById("postJobBtn");
+      if (storedType && postBtn && storedType === "Job Seeker") {
+        postBtn.style.display = "none";
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HVAC Technician - BlueJob</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div class="left-header"><div class="logo">BlueJob</div></div>
+  <div class="search-bar"><input type="text" placeholder="Search jobs, companies, or skills..."></div>
+  <nav>
+    <a href="jobs.html">Find Jobs</a>
+    <a href="#">Companies</a>
+    <a href="#">Resources</a>
+    <button class="back-btn" id="backBtn">← Back</button>
+  </nav>
+</header>
+
+<div class="job-page">
+  <main>
+    <div class="job-header">
+      <h2>HVAC Technician</h2>
+      <span class="tag urgent">Urgent Hire</span>
+      <span class="tag hvac">HVAC</span>
+      <div class="company">CoolAir Systems</div>
+      <div class="details">📍 Makati City · ₱180/hour · Full-time</div>
+      <div class="details">Posted 1 day ago</div>
+    </div>
+
+    <h3>Job Description</h3>
+    <p>Install, repair, and maintain heating, ventilation, and air conditioning systems for commercial and residential clients.</p>
+
+    <h3>Responsibilities</h3>
+    <ul>
+      <li>Install HVAC equipment including AC, heaters, and ductwork</li>
+      <li>Diagnose and repair HVAC system issues</li>
+      <li>Perform routine maintenance and inspections</li>
+      <li>Follow safety and technical standards</li>
+    </ul>
+
+    <h3>Requirements</h3>
+    <ul>
+      <li>HVAC certification</li>
+      <li>2+ years of hands-on experience</li>
+      <li>Good troubleshooting and technical skills</li>
+      <li>Ability to work in different environments</li>
+    </ul>
+
+    <h3>Benefits & Perks</h3>
+    <ul>
+      <li>Hourly pay with overtime</li>
+      <li>Health insurance</li>
+      <li>Training and certification support</li>
+      <li>Company-provided tools</li>
+    </ul>
+
+    <a href="#" class="apply-btn" id="openFormBtn">Apply Now</a>
+    <div class="confirmation" id="confirmationMsg">Application Sent!</div>
+  </main>
+
+  <aside>
+    <h2>About CoolAir Systems</h2>
+    <p>Leading provider of HVAC services in Metro Manila, focusing on installation, repair, and maintenance for homes and offices.</p>
+
+    <h2>Similar Jobs</h2>
+    <ul>
+      <li><strong>Maintenance Technician</strong><br>MetroWorks — ₱180/hour</li>
+      <li><strong>Refrigeration Specialist</strong><br>CoolTech — ₱190/hour</li>
+    </ul>
+  </aside>
+</div>
+
+<!-- Popup Form -->
+<div class="popup-overlay" id="popupForm">
+  <div class="popup-form">
+    <span class="close-btn" id="closeForm">&times;</span>
+    <h3>Apply for HVAC Technician</h3>
+    <form id="jobApplicationForm">
+      <input type="text" placeholder="Name" required>
+      <input type="email" placeholder="Email" required>
+      <input type="tel" placeholder="Phone" required>
+      <textarea placeholder="Short Message" rows="4" required></textarea>
+      <button type="submit">Submit Application</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  const backBtn = document.getElementById('backBtn');
+  backBtn.addEventListener('click', ()=>{document.referrer?history.back():window.location.href='jobs.html';});
+
+  const openFormBtn = document.getElementById('openFormBtn');
+  const popupForm = document.getElementById('popupForm');
+  const closeForm = document.getElementById('closeForm');
+  const jobForm = document.getElementById('jobApplicationForm');
+  const confirmationMsg = document.getElementById('confirmationMsg');
+
+  openFormBtn.addEventListener('click',(e)=>{e.preventDefault();popupForm.style.display='flex';confirmationMsg.style.display='none';});
+  closeForm.addEventListener('click',()=>{popupForm.style.display='none';});
+  jobForm.addEventListener('submit',(e)=>{e.preventDefault();popupForm.style.display='none';confirmationMsg.style.display='block';jobForm.reset();});
+</script>
+</body>
+</html>

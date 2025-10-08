@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Companies - BlueJob</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div class="left-header"><div class="logo">BlueJob</div></div>
+  <div class="search-bar"><input type="text" placeholder="Search companies..."></div>
+  <nav>
+    <a href="jobs.html">Find Jobs</a>
+    <a href="company.html">Companies</a>
+    <a href="resources.html">Resources</a>
+    <button class="back-btn" id="backBtn">← Back</button>
+  </nav>
+</header>
+
+<main class="company-page">
+  <h2>Companies</h2>
+  <p>Explore companies hiring in your industry.</p>
+
+  <div class="company-list">
+    <div class="company-card">
+      <h3>PowerTech Solutions</h3>
+      <p>Electrical contracting company providing residential and commercial services across Metro Manila.</p>
+      <a href="#">View Jobs</a>
+    </div>
+    <div class="company-card">
+      <h3>BuildRight Construction</h3>
+      <p>Construction firm specializing in commercial and residential buildings with focus on safety and quality.</p>
+      <a href="#">View Jobs</a>
+    </div>
+    <div class="company-card">
+      <h3>CoolAir Systems</h3>
+      <p>HVAC service provider offering installation, maintenance, and repair for homes and offices.</p>
+      <a href="#">View Jobs</a>
+    </div>
+    <div class="company-card">
+      <h3>FlowPro Plumbing</h3>
+      <p>Reliable plumbing company handling installations, repairs, and maintenance for residential and commercial clients.</p>
+      <a href="#">View Jobs</a>
+    </div>
+    <div class="company-card">
+      <h3>MetroWorks</h3>
+      <p>Multi-industry company offering electrical, supervisory, and maintenance services across Metro Manila.</p>
+      <a href="#">View Jobs</a>
+    </div>
+  </div>
+</main>
+
+<script>
+  const backBtn = document.getElementById('backBtn');
+  backBtn.addEventListener('click', ()=>{document.referrer?history.back():window.location.href='jobs.html';});
+</script>
+</body>
+</html>
