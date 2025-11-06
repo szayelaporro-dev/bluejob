@@ -70,18 +70,23 @@
   </div>
 
   <div class="popup-overlay" id="popupForm">
-    <div class="popup-form">
-      <span class="close-btn" id="closeForm">&times;</span>
-      <h3>Apply for Experienced Electrician</h3>
-      <form id="jobApplicationForm">
-        <input type="text" placeholder="Name" required>
-        <input type="email" placeholder="Email" required>
-        <input type="tel" placeholder="Phone" required>
-        <textarea placeholder="Short Message" rows="4" required></textarea>
-        <button type="submit">Submit Application</button>
-      </form>
-    </div>
+  <div class="popup-form">
+    <span class="close-btn" id="closeForm">&times;</span>
+    <h3>Apply for Experienced Technician</h3>
+    <form id="jobApplicationForm" enctype="multipart/form-data">
+      <input type="text" placeholder="Name" required>
+      <input type="email" placeholder="Email" required>
+      <input type="tel" placeholder="Phone" required>
+
+      <!-- File upload instead of message -->
+      <label for="fileUpload">Upload Photos or Files:</label>
+      <input type="file" id="fileUpload" name="fileUpload" accept="image/*,.pdf,.doc,.docx" multiple required>
+
+      <button type="submit">Submit Application</button>
+    </form>
   </div>
+</div>
+
 
   <script>
     const backBtn = document.getElementById('backBtn');

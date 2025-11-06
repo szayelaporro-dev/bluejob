@@ -48,7 +48,7 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-   <script>
+  <script>
 let generatedCode = "";
 emailjs.init("9t9hQw3XFYkpeP45U");
 
@@ -89,6 +89,9 @@ function checkCode() {
   if (entered.length === 6 && entered == generatedCode) {
     alert("Verification successful! Logging in...");
     window.location.href = "BlueJob/jobs.html";
+  }
+  else if (entered.length === 6 && entered != generatedCode) {
+    alert("Enter Correct Verification")
   }
 }
 </script>
