@@ -76,11 +76,15 @@
   <div class="popup-form">
     <span class="close-btn" id="closeForm">&times;</span>
     <h3>Apply for Master Electrician</h3>
-    <form id="jobApplicationForm">
+    <form id="jobApplicationForm" enctype="multipart/form-data">
       <input type="text" placeholder="Name" required>
       <input type="email" placeholder="Email" required>
       <input type="tel" placeholder="Phone" required>
-      <textarea placeholder="Short Message" rows="4" required></textarea>
+
+      <!-- File upload instead of message -->
+      <label for="fileUpload">Upload Photos or Files:</label>
+      <input type="file" id="fileUpload" name="fileUpload" accept="image/*,.pdf,.doc,.docx" multiple required>
+
       <button type="submit">Submit Application</button>
     </form>
   </div>
