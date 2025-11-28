@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Casio-style Calculator on Stall Background</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
+
+  body, html {
+    margin: 0; padding: 0; height: 100%;
+    font-family: 'Orbitron', monospace, sans-serif;
+    background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1350&q=80') no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Overlay to simulate translucent stall top */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(255 255 255 / 0.4);
+    backdrop-filter: blur(8px);
+    z-index: 0;
+  }
+
+  .calculator {
+    position: relative;
+    background: #30343d;
+    border-radius: 20px;
+    padding: 24px;
+    width: 320px;
+    box-shadow:
+      0 4px 8px rgba(0,0,0,0.6),
+      inset 0 3px 6px #565a68,
+      inset 0 -3px 6px #1c1f26;
+    z-index: 1;
+  }
+
+  /* Display */
+  .display {
+    height: 60px;
+    background: linear-gradient(180deg, #000c12, #002333);
+    border-radius: 12px;
+    color: #00ff00;
+    font-size: 2.4rem;
+    text-align: right;
+    padding: 0 18px;
+    line-height: 60px;
+    font-weight: 700;
+    text-shadow:
+      0 0 6px #0f0,
+      0 0 15px #0f0;
+    box-shadow:
+      inset 0 4px 5px #0f0a00cc;
+    user-select: none;
+  }
+
+  /* Buttons Grid */
+  .buttons {
+    margin-top: 22px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+
+  button {
+    font-family: 'Orbitron', monospace, sans-serif;
+    font-weight: 900;
+    font-size: 1.3rem;
+    background: linear-gradient(145deg, #5a5f6c, #2a2d35);
+    border: 2.5px solid #11181f;
+    border-radius: 12px;
+    color: #d0d4db;
+    padding: 18px 0;
+    cursor: pointer;
+    box-shadow:
+      2px 2px 5px #1f222b,
+      inset 1px 1px 2px #767a88,
+      inset -1px -1px 2px #23262d;
+    transition: background 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    user-select: none;
+  }
+  button:hover {
+    background: linear-gradient(145deg, #7f8493, #3f4350);
+    box-shadow:
+      3px 3px 7px #292d37,
+      inset 1px 1px 3px #a6abc3,
+      inset -1px -1px 3px #3a3e4b;
+  }
+  button:active {
+    background: linear-gradient(145deg, #24272c, #1b1e23);
+    box-shadow:
+      inset 3px 3px 6px #14171c,
+      inset -3px -3px 6px #262a32;
+  }
+
+  /* Operator Buttons */
+  button.operator {
+    background: linear-gradient(145deg, #c77326, #a9580d);
+    color: #fff6dc;
+    border-color: #6b3d05;
+    box-shadow:
+      2px 2px 6px #5f3904,
+      inset 1px 1px 3px #f3c77f,
+      inset -1px -1px 3px #8a5c18;
+  }
+  button.operator:hover {
+    background: linear-gradient(145deg, #e9963b, #c67d18);
+    box-shadow:
+      3px 3px 8px #8a6312,
+      inset 1px 1px 3px #f9db9a,
+      inset -1px -1px 3px #b37a30;
+  }
+  button.operator:active {
+    background: linear-gradient(145deg, #7b4d00, #6a3e00);
+    box-shadow:
+      inset 3px 3px 7px #422a00,
+      inset -3px -3px 7px #5e3d00;
+  }
+
+  /* Clear Button */
+  button.clear {
+    background: linear-gradient(145deg, #ad2c3c, #800017);
+    color: #ffe0e0;
+    border-color: #53000f;
+    box-shadow:
+      2px 2px 6px #52000e,
+      inset 1px 1px 3px #ff7a93,
+      inset -1px -1px 3px #80001a;
+  }
+  button.clear:hover {
+    background: linear-gradient(145deg, #d93d4e, #a71a27);
+    box-shadow:
+      3px 3px 8px #9c1c2a,
+      inset 1px 1px 3px #ffb0bb,
+      inset -1px -1px 3px #c2002f;
+  }
+  button.clear:active {
+    background: linear-gradient(145deg, #5b0009, #4a0006);
+    box-shadow:
+      inset 3px 3px 7px #2c0004,
+      inset -3px -3px 7px #4b0007;
+  }
+
+  /* Zero button wider */
+  button.zero {
+    grid-column: span 2;
+  }
+
+  /* Responsive font size */
+  @media (max-width: 400px) {
+    .calculator {
+      width: 90vw;
+      padding: 18px;
+    }
+    button {
+      font-size: 1.1rem;
+      padding: 14px 0;
+    }
+    .display {
+      font-size: 1.8rem;
+      height: 48px;
+      line-height: 48px;
+      padding: 0 12px;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="calculator" role="region" aria-label="Casio-style Calculator on Stall Background">
+    <div id="display" class="display" aria-live="polite" aria-atomic="true">0</div>
+    <div class="buttons">
+      <button class="clear" id="clear">AC</button>
+      <button class="operator" data-val="/">÷</button>
+      <button class="operator" data-val="*">×</button>
+      <button class="operator" data-val="-">−</button>
+
+      <button data-val="7">7</button>
+      <button data-val="8">8</button>
+      <button data-val="9">9</button>
+      <button class="operator" data-val="+">+</button>
+
+      <button data-val="4">4</button>
+      <button data-val="5">5</button>
+      <button data-val="6">6</button>
+      <button class="operator" id="equals">=</button>
+
+      <button data-val="1">1</button>
+      <button data-val="2">2</button>
+      <button data-val="3">3</button>
+
+      <button data-val="0" class="zero">0</button>
+      <button data-val=".">.</button>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      const display = document.getElementById('display');
+      const buttons = document.querySelectorAll('.buttons button');
+      let current = '';
+      let justEvaluated = false;
+      const maxLength = 9;  // max digits allowed in a number chunk
+
+      function safeEval(expr) {
+        if (!/^[0-9+\-*/().\s]+$/.test(expr)) return null;
+        try { return Function('"use strict";return (' + expr + ')')(); }
+        catch { return null; }
+      }
+
+      function updateDisplay() {
+        display.textContent = current || '0';
+      }
+
+      function getLastNumberChunk(str) {
+        let parts = str.split(/[\+\-\*\/]/);
+        return parts[parts.length -1];
+      }
+
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const val = btn.dataset.val;
+          if (btn.id === 'clear') {
+            current = '';
+            justEvaluated = false;
+            updateDisplay();
+            return;
+          }
+          if (btn.id === 'equals') {
+            const result = safeEval(current);
+            if (result === null || isNaN(result)) {
+              display.textContent = 'Error';
+              current = '';
+              justEvaluated = true;
+            } else {
+              current = '' + result;
+              justEvaluated = true;
+              updateDisplay();
+            }
+            return;
+          }
+
+          if (justEvaluated && /[0-9.]/.test(val)) {
+            current = val;
+            justEvaluated = false;
+            updateDisplay();
+            return;
+          }
+
+          if (/[+\-*/]/.test(val)) {
+            if (current === '') return;
+            if (/[+\-*/]$/.test(current)) {
+              current = current.slice(0, -1) + val;
+              updateDisplay();
+              return;
+            }
+          }
+
+          if (val === '.') {
+            const lastChunk = getLastNumberChunk(current);
+            if (lastChunk.includes('.')) return;
+          }
+
+          const lastChunk = getLastNumberChunk(current);
+          if (/[0-9]/.test(val)) {
+            if (lastChunk.length >= maxLength) return;
+          }
+
+          current += val;
+          updateDisplay();
+        });
+      });
+
+      window.addEventListener('keydown', e => {
+        const allowed = '0123456789+-*/().';
+        if (allowed.includes(e.key)) {
+          const btn = document.querySelector(`button[data-val="${e.key}"]`);
+          if (btn) btn.click();
+          e.preventDefault();
+        } else if (e.key === 'Enter') {
+          document.getElementById('equals').click();
+          e.preventDefault();
+        } else if (e.key === 'Escape') {
+          document.getElementById('clear').click();
+          e.preventDefault();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

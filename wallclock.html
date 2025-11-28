@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>WallClock</title>
+<style>
+  body {
+    background: url('https://woodpanelwall.com/wp-content/uploads/2024/09/Living-Room-with-Modern-Wood-Wall-Panels.jpg') no-repeat center center fixed;
+    background-size:120%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .whole-clock
+  {
+    transform: scale(0.4);
+    position: fixed;
+    top: -40px;
+
+  }
+  
+  .clock {
+    background: white;
+    width: 320px;
+    height: 320px;
+    margin: 0 auto;
+    border-radius: 50%;
+    border: 14px solid black;
+    position: relative;
+    box-shadow:
+      -20px 20px 20px rgba(0, 0, 0, 0.5),
+      inset 0 0 50px rgba(0, 0, 0, 0.2);
+  }
+
+  .dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: black;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow:
+      0 0 5px rgba(0,0,0,0.7);
+    z-index: 10;
+  }
+
+  .hour-hand, .minute-hand, .second-hand {
+    position: absolute;
+    left: 50%;
+    background: black;
+    border-radius: 2px;
+    box-shadow: none;
+    transform-origin: bottom center;
+    transform: rotate(0deg);
+    transition: transform 0.05s linear;
+  }
+
+  .hour-hand {
+    width: 6px;
+    height: 90px;
+    top: calc(50% - 90px);
+    margin-left: -3px;
+  }
+
+  .minute-hand {
+    width: 4px;
+    height: 125px;
+    top: calc(50% - 125px);
+    margin-left: -2px;
+  }
+
+  .second-hand {
+    width: 2px;
+    height: 140px;
+    top: calc(50% - 140px);
+    margin-left: -1px;
+    background: #b30000; 
+  }
+
+  .numbers-container {
+    position: relative;
+    height: 100%;
+  }
+
+  span {
+    position: absolute;
+    color: black;
+    font-size: 28px;
+    font-weight: 700;
+    user-select: none;
+  }
+
+  .h12 {
+    top: 15px; 
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .h3 {
+    top: 46%;
+    right: 38px; 
+    transform: translateY(-50%);
+  }
+  .h6 {
+    bottom: 40px; 
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .h9 {
+    top: 46%;
+    left: 38px; 
+    transform: translateY(-50%);
+  }
+
+  .digital-time {
+    position: absolute;
+    top: 35%;
+    left: 160px;
+    transform: translate(-110%, -50%);
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 18px;
+    font-weight: 700;
+    color: black;
+    user-select: none;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+
+  .day {
+   position: absolute;
+    width: 140px;
+    height: 24px;
+    border-radius: 8px;
+    background: rgba(255 255 255 / 0.85);
+    text-align: center;
+    line-height: 24px;
+    color: black;
+    font-size: 14px;
+    top: 48px;
+    left: 50%;
+    margin-left: -70px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    user-select: none;
+    box-shadow:
+      0 0 5px rgba(0,0,0,0.15);
+  }
+
+  .diallines {
+    position: absolute;
+    width: 2px;
+    background: black;
+    left: 50%;
+    top: 0;
+    margin-left: -1px;
+    border-radius: 1px;
+    height: 15px;
+    z-index: 2;
+    transform-origin: 50% 150px;
+  }
+  .diallines.minute {
+    width: 4px;
+    height: 25px;
+    margin-left: -2px;
+  }
+
+  .info {
+    position: absolute;
+    width: 140px;
+    height: 24px;
+    border-radius: 8px;
+    background: rgba(255 255 255 / 0.85);
+    text-align: center;
+    line-height: 24px;
+    color: black;
+    font-size: 14px;
+    top: 200px;
+    left: 50%;
+    margin-left: -70px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    user-select: none;
+    box-shadow:
+      0 0 5px rgba(0,0,0,0.15);
+  }
+  
+</style>
+</head>
+<body>
+    <div class="whole-clock">
+  <div class="clock">
+    <div class="day"></div>
+    <div class="dot"></div>
+    <div>
+      <div class="hour-hand"></div>
+      <div class="minute-hand"></div>
+      <div class="second-hand"></div>
+    </div>
+    <div class="numbers-container">
+      <span class="h3">3</span>
+      <span class="h6">6</span>
+      <span class="h9">9</span>
+      <span class="h12">12</span>
+      <div class="digital-time"></div>
+    </div>
+    <div class="info date"></div>
+  </div>
+  </div>
+
+  <script>
+    const clockEl = document.getElementsByClassName('clock')[0];
+    const digitalTimeEl = document.querySelector('.digital-time');
+    const dayEl = document.querySelector('.day');
+
+    // Create dial lines with createElement to prevent overwriting innerHTML
+    for (let i = 0; i < 60; i++) {
+      const line = document.createElement('div');
+      line.className = 'diallines';
+      if (i % 5 === 0) line.classList.add('minute');
+      line.style.transform = `rotate(${6 * i}deg) translateY(-0px)`;
+      clockEl.appendChild(line);
+    }
+
+    function clock() {
+      const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+      const d = new Date();
+      const h = d.getHours();
+      const m = d.getMinutes();
+      const s = d.getSeconds() + d.getMilliseconds() / 1000; 
+      const date = d.getDate();
+      let month = d.getMonth() + 1;
+      const year = d.getFullYear();
+
+      const hDeg = h * 30 + m * 0.5 + (s / 120);
+      const mDeg = m * 6 + s * 0.1;
+      const sDeg = s * 6;
+
+      const hEl = document.querySelector('.hour-hand');
+      const mEl = document.querySelector('.minute-hand');
+      const sEl = document.querySelector('.second-hand');
+      const dateEl = document.querySelector('.date');
+
+      if (month < 10) month = "0" + month;
+
+      hEl.style.transform = `rotate(${hDeg}deg)`;
+      mEl.style.transform = `rotate(${mDeg}deg)`;
+      
+      // Disable transition briefly when second hand resets to avoid jump
+      if (s < 0.1) {
+        sEl.style.transition = 'none';
+      } else {
+        sEl.style.transition = 'transform 0.05s linear';
+      }
+      sEl.style.transform = `rotate(${sDeg}deg)`;
+
+      dateEl.textContent = `${date}/${month}/${year}`;
+      dayEl.textContent = weekday[d.getDay()];
+
+      // Format digital time (12h with AM/PM)
+      let hour12 = h % 12 || 12;
+      let minStr = m < 10 ? '0' + m : m;
+      let ampm = h >= 12 ? 'PM' : 'AM';
+      digitalTimeEl.textContent = `${hour12}:${minStr} ${ampm}`;
+    }
+
+    setInterval(clock, 16);
+    clock();
+  </script>
+</body>
+</html>

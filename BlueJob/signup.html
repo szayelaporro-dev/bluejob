@@ -1,153 +1,173 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Signup - BlueJob</title>
-  <link rel="stylesheet" href="jobs.css">
-<style>
-body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  font-family: 'Segoe UI', Arial, sans-serif;
-  background: #f9f9f9;
-  color: #333;
-  margin: 0;
-}
+  <style>
+    /* Base layout matching Login page style */
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      /* Gradient blue background */
+      background: linear-gradient(135deg, #0b76ff 0%, #4aa8ff 100%);
+      color: #222;
+      margin: 0;
+    }
 
-header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 15px;
-  background: #fff;
-  border-bottom: 1px solid #ddd;
-}
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      background: #fff;
+      border-bottom: 1px solid #e6e9ef;
+      box-shadow: 0 1px 0 rgba(0,0,0,0.02);
+    }
 
-header .logo {
-  font-size: 22px;
-  font-weight: 700;
-  color: #007bff;
-}
+    header .logo {
+      font-size: 24px;
+      font-weight: 800;
+      color: #0b76ff;
+      letter-spacing: 0.5px;
+    }
 
-.signup-container {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 10px;
-}
+    .signup-container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+    }
 
-.signup-card {
-  background: white;
-  padding: 20px 15px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.05);
-  width: 100%;
-  max-width: 360px;
-  text-align: left;
-}
+    .signup-card {
+      background: white;
+      padding: 40px 30px;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(11,22,50,0.06);
+      max-width: 440px;
+      width: 100%;
+      text-align: left;
+      transition: transform 0.12s ease;
+    }
+    .signup-card:hover {
+      transform: translateY(-3px);
+    }
 
-.signup-card h2 {
-  margin-bottom: 15px;
-  color: #007bff;
-  font-size: 22px;
-  text-align: center;
-}
+    .signup-card h2 {
+      margin-bottom: 6px;
+      color: #0b76ff;
+      font-size: 26px;
+      text-align: center;
+    }
 
-.signup-card label {
-  display: block;
-  margin-bottom: 3px;
-  font-weight: 500;
-  margin-top: 8px;
-  font-size: 13px;
-}
+    .signup-card label {
+      display: block;
+      font-size: 13px;
+      color: #374151;
+      font-weight: 600;
+      margin-bottom: 6px;
+      margin-top: 15px;
+    }
 
-.signup-card input,
-.signup-card select {
-  width: 100%;
-  padding: 8px 10px;
-  margin-bottom: 8px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 13px;
-  box-sizing: border-box;
-}
+    .signup-card input,
+    .signup-card select,
+    .signup-card datalist {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid #d1d7e0;
+      border-radius: 8px;
+      font-size: 14px;
+      background: #fbfdff;
+      box-sizing: border-box;
+      transition: box-shadow 0.12s ease, border-color 0.12s ease;
+    }
+    .signup-card input:focus,
+    .signup-card select:focus {
+      outline: none;
+      border-color: #0b76ff;
+      box-shadow: 0 4px 14px rgba(11,118,255,0.08);
+      background: #fff;
+    }
 
-.signup-card button {
-  width: 100%;
-  padding: 10px 0;
-  background: #007bff;
-  color: #fff;
-  font-size: 15px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  margin-top: 10px;
-  transition: 0.2s;
-}
+    .signup-card button {
+      width: 100%;
+      padding: 12px 0;
+      background: #0b76ff;
+      color: #fff;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      margin-top: 20px;
+      transition: background 0.2s;
+    }
+    .signup-card button:hover {
+      background: #095dd1;
+    }
 
-.signup-card button:hover {
-  background: #005fcc;
-}
+    .signup-card p {
+      margin-top: 20px;
+      font-size: 14px;
+      text-align: center;
+      color: #54607a;
+    }
+    .signup-card a {
+      color: #0b76ff;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .signup-card a:hover {
+      text-decoration: underline;
+    }
 
-.signup-card p {
-  margin-top: 15px;
-  font-size: 13px;
-  text-align: center;
-}
-
-.signup-card a {
-  color: #007bff;
-  text-decoration: none;
-}
-
-.signup-card a:hover {
-  text-decoration: underline;
-}
-
-/* Responsive tweaks */
-@media (max-width: 400px) {
-  .signup-card {
-    padding: 15px 10px;
-  }
-  .signup-card h2 {
-    font-size: 20px;
-  }
-}
-</style>
-
-
+    /* Responsive tweaks */
+    @media (max-width: 480px) {
+      .signup-card {
+        padding: 28px 20px;
+        margin: 0 8px;
+      }
+      header .logo {
+        font-size: 20px;
+      }
+    }
+  </style>
 </head>
 <body>
 
+  <header>
+    <div class="logo">BlueJob</div>
+  </header>
+
   <div class="signup-container">
-    <div class="signup-card">
-      <h2>Create Account</h2>
+    <div class="signup-card" role="main" aria-labelledby="signup-heading">
+      <h2 id="signup-heading">Create Account</h2>
       <form id="signupForm">
         <label for="name">Full Name</label>
-        <input type="text" id="name" required>
+        <input type="text" id="name" required />
 
         <label for="email">Email</label>
-        <input type="email" id="email" required>
+        <input type="email" id="email" required />
 
         <label for="phone">Phone Number</label>
-        <input type="text" id="phone" required>
+        <input type="text" id="phone" required />
 
         <label for="accountType">Account Type</label>
-        <input list="accountTypes" id="accountType" required onchange="togglePostJob()">
+        <input list="accountTypes" id="accountType" required onchange="togglePostJob()" />
         <datalist id="accountTypes">
-          <option value="Job Seeker">
-          <option value="Employer">
+          <option value="Job Seeker" />
+          <option value="Employer" />
         </datalist>
 
         <label for="password">Password</label>
-        <input type="password" id="password" required>
+        <input type="password" id="password" required />
 
         <button type="submit">Create Account</button>
       </form>
-      <p>Already have an account? <a href="login.html">Login</a></p>
+      <p>Already have an account? <a href="../index.html">Login</a></p>
     </div>
   </div>
 
@@ -155,13 +175,13 @@ header .logo {
     const signupForm = document.getElementById("signupForm");
 
     // Simulate account creation and redirect to jobs page
-    signupForm.addEventListener("submit", function(event){
+    signupForm.addEventListener("submit", function(event) {
       event.preventDefault();
       const name = document.getElementById("name").value;
       const accountType = document.getElementById("accountType").value;
 
       alert("Account created successfully!\nWelcome, " + name + " (" + accountType + ")");
-      
+
       // Store account type in session storage (so you can hide Post a Job for job seekers)
       sessionStorage.setItem("accountType", accountType);
 
@@ -190,5 +210,6 @@ header .logo {
       }
     });
   </script>
+
 </body>
 </html>

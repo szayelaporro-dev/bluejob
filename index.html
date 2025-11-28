@@ -1,100 +1,362 @@
 <!DOCTYPE html>
 <html lang="en">
- 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Login - BlueJob</title>
   <style>
-    body { display: flex; flex-direction: column; min-height: 100vh; font-family: 'Segoe UI', Arial, sans-serif; background: #f9f9f9; color: #333; }
-    header { display: flex; align-items: center; justify-content: center; padding: 20px; background: #fff; border-bottom: 1px solid #ddd; }
-    header .logo { font-size: 24px; font-weight: 700; color: #007bff; }
+    /* Reset and box-sizing */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #007bff, #0056b3);
+      color: #222;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background: #fff;
+      padding: 20px 0;
+      box-shadow: 0 2px 6px rgb(0 0 0 / 0.1);
+      text-align: center;
+    }
+    header .logo {
+      font-weight: 900;
+      font-size: 28px;
+      color: #007bff;
+      letter-spacing: 1.5px;
+    }
+    /* Center container */
+    .login-container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 30px 15px;
+      background: transparent;
+    }
+    /* Glass card style */
+    .login-card {
+      background: rgba(255 255 255 / 0.9);
+      backdrop-filter: saturate(180%) blur(15px);
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+      padding: 40px 35px;
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+      transition: transform 0.15s ease-in-out;
+    }
+    .login-card:hover {
+      transform: translateY(-5px);
+    }
+    /* Title & desc */
+    .login-card h2 {
+      margin: 0 0 8px;
+      color: #007bff;
+      font-weight: 800;
+      font-size: 28px;
+      letter-spacing: 0.05em;
+    }
+    .login-card .desc {
+      margin: 0 0 30px;
+      font-size: 15px;
+      color: #425066;
+      font-weight: 500;
+    }
+    /* Form fields */
+    .input-row {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+      color: #2c3e50;
+      font-size: 14px;
+    }
+    input[type="email"],
+    input[type="password"],
+    input[type="text"] {
+      width: 100%;
+      padding: 14px 16px;
+      font-size: 15px;
+      border-radius: 10px;
+      border: 1.8px solid #cfd8e7;
+      background: #fff;
+      transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+      outline-offset: 2px;
+      outline-color: transparent;
+    }
+    input[type="email"]:focus,
+    input[type="password"]:focus,
+    input[type="text"]:focus {
+      border-color: #007bff;
+      box-shadow: 0 0 10px #66aaffaa;
+      outline-color: #66aaffcc;
+      background: #f5fbff;
+    }
+    /* Password toggle wrapper */
+    .pwd-wrap {
+      position: relative;
+    }
+    .pwd-toggle {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: none;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      color: #007bff;
+      user-select: none;
+      transition: color 0.2s ease;
+      padding: 4px 6px;
+      border-radius: 6px;
+    }
+    .pwd-toggle:hover {
+      color: #0056b3;
+      background: #e3f0ff;
+    }
+    /* Actions (remember + forgot) */
+    .actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+      font-size: 14px;
+      color: #4a566b;
+    }
+    .remember {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .remember input {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+    .link {
+      color: #007bff;
+      text-decoration: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+    .link:hover {
+      text-decoration: underline;
+      color: #0056b3;
+    }
+    /* Login button */
+    .button {
+      width: 100%;
+      background-color: #007bff;
+      border: none;
+      padding: 14px 0;
+      color: white;
+      font-weight: 700;
+      font-size: 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      box-shadow: 0 5px 15px rgb(0 123 255 / 0.4);
+    }
+    .button:hover,
+    .button:focus {
+      background-color: #0056b3;
+      box-shadow: 0 6px 20px rgb(0 86 179 / 0.6);
+      outline: none;
+    }
+    /* Verification box */
+    #verifyBox {
+      margin-top: 30px;
+      text-align: center;
+      animation: fadeIn 0.5s ease forwards;
+    }
+    #verifyBox input {
+      width: 60%;
+      max-width: 180px;
+      font-size: 22px;
+      text-align: center;
+      letter-spacing: 6px;
+      padding: 14px 0;
+      border-radius: 12px;
+      border: 2.5px solid #007bff;
+      transition: border-color 0.25s ease;
+      font-weight: 600;
+      background-color: #f5faff;
+      outline-offset: 2px;
+    }
+    #verifyBox input:focus {
+      border-color: #0056b3;
+      box-shadow: 0 0 15px #66aaffcc;
+      outline-color: #66aaffcc;
+      background-color: #e6f0ff;
+    }
+    .hint {
+      font-size: 13px;
+      color: #6b7384;
+      margin-top: 10px;
+      font-style: italic;
+    }
+    /* Signup link */
+    .signup-text {
+      margin-top: 28px;
+      font-size: 15px;
+      color: #4a566b;
+    }
+    .signup-text a {
+      color: #007bff;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+    .signup-text a:hover {
+      color: #0056b3;
+      text-decoration: underline;
+    }
+    /* Animations */
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(8px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+    /* Responsive */
+    @media (max-width: 480px) {
+      .login-card {
+        padding: 30px 20px;
+        margin: 0 10px;
+      }
+      #verifyBox input {
+        width: 80%;
+      }
+    }
 
-    .login-container { flex: 1; display: flex; justify-content: center; align-items: center; padding: 40px 20px; }
-    .login-card { background: white; padding: 40px 30px; border-radius: 10px; box-shadow: 0 0 15px rgba(0,0,0,0.05); max-width: 400px; width: 100%; text-align: center; }
     
-    .login-card h2 { margin-bottom: 25px; color: #007bff; font-size: 26px; }
-    .login-card input { width: 95%; padding: 12px 15px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 8px; font-size: 14px; }
-    
-    .login-card .button { width: 100%; padding: 12px 0; background: #007bff; color: #fff; font-size: 16px; border: none; border-radius: 8px; cursor: pointer; transition: 0.2s; }
-    .login-card .button:hover { background: #005fcc; }
-
-    #verifyBox { margin-bottom: 15px; }
-    #verifyBox input { width: 100%; }
-
-    .login-card p { margin-top: 20px; font-size: 14px; }
-    .login-card .link { color: #007bff; text-decoration: none; }
-    .login-card .link:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
   <header>
-    <div class="logo">BlueJob</div>
+    <div class="logo" aria-label="BlueJob Logo">BlueJob</div>
   </header>
 
-  <div class="login-container">
-    <div class="login-card">
-      <h2>Login</h2>
-      <input id="email" type="email" placeholder="Email">
-      <input id="password" type="password" placeholder="Password">
+  <main class="login-container" role="main" aria-labelledby="login-heading">
+    <section class="login-card" aria-live="polite">
+      <h2 id="login-heading">Login</h2>
+      <p class="desc">Welcome to BlueJob — find jobs faster, manage applications, and connect with employers.</p>
+
+      <div class="input-row">
+        <label for="email">Email</label>
+        <input id="email" type="email" placeholder="Enter your email" autocomplete="email" required />
+      </div>
+
+      <div class="input-row">
+        <label for="password">Password</label>
+        <div class="pwd-wrap">
+          <input id="password" type="password" placeholder="Enter your password" autocomplete="current-password" required />
+          <button type="button" id="toggleBtn" class="pwd-toggle" aria-pressed="false" aria-label="Show password">Show</button>
+        </div>
+      </div>
+
+      <div class="actions">
+        <label class="remember">
+          <input id="remember" type="checkbox" /> Remember me
+        </label>
+        <a href="#" id="forgotLink" class="link">Forgot password?</a>
+      </div>
+
       <button class="button" onclick="sendCode()">Login</button>
 
       <div id="verifyBox" style="display:none;">
-        <input id="code" type="text" maxlength="6" placeholder="Enter verification code" oninput="checkCode()">
+        <div class="input-row">
+          <label for="code">Verification Code</label>
+          <input id="code" type="text" maxlength="6" placeholder="Enter verification code" oninput="checkCode()" autocomplete="one-time-code" />
+        </div>
+        <p class="hint">A 6-digit code was sent to your email. It expires in 15 minutes.</p>
       </div>
 
-      <p>Don’t have an account? <a href="BlueJob/signup.html" class="link">Sign up</a></p>
-    </div>
-  </div>
+      <p class="signup-text">
+        Don’t have an account? <a href="BlueJob/signup.html" class="link">Sign up</a>
+      </p>
+    </section>
+  </main>
 
+  <!-- EmailJS -->
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script>
-let generatedCode = "";
-emailjs.init("9t9hQw3XFYkpeP45U");
+    let generatedCode = "";
+    emailjs.init("9t9hQw3XFYkpeP45U");
 
+    // Password toggle
+    document.getElementById("toggleBtn").addEventListener("click", () => {
+      const pass = document.getElementById("password");
+      const btn = document.getElementById("toggleBtn");
+      if (pass.type === "password") {
+        pass.type = "text";
+        btn.textContent = "Hide";
+        btn.setAttribute("aria-pressed", "true");
+      } else {
+        pass.type = "password";
+        btn.textContent = "Show";
+        btn.setAttribute("aria-pressed", "false");
+      }
+    });
 
+    function sendCode() {
+      const email = document.getElementById("email").value.trim();
+      if (!email) {
+        alert("Please enter your email first.");
+        return;
+      }
 
-function sendCode() {
-  const email = document.getElementById("email").value.trim();
-  if (!email) {
-    alert("Please enter your email first.");
-    return;
-  }
+      generatedCode = String(Math.floor(100000 + Math.random() * 900000));
 
-  // Generate a 6-digit code
-  generatedCode = Math.floor(100000 + Math.random() * 900000);
+      const expiration = new Date(Date.now() + 15 * 60 * 1000);
+      const time = expiration.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 
-  // Set OTP expiration time (15 minutes from now)
-  const expiration = new Date(Date.now() + 15 * 60 * 1000);
-  const time = expiration.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+      emailjs
+        .send("service_ltkx36w", "template_yeq3txw", {
+          email: email,
+          passcode: generatedCode,
+          time: time,
+        })
+        .then(function (response) {
+          console.log("Email sent successfully!", response.status, response.text);
+          alert("Verification code sent to " + email);
+          document.getElementById("verifyBox").style.display = "block";
+          const codeInput = document.getElementById("code");
+          setTimeout(() => codeInput.focus(), 300);
+        })
+        .catch(function (error) {
+          console.error("Failed to send email:", error);
+          alert("Failed to send verification code. Please try again.");
+        });
+    }
 
-  // Send email using EmailJS
-  emailjs.send("service_ltkx36w", "template_yeq3txw", {
-    email: email,           // recipient
-    passcode: generatedCode, // OTP code
-    time: time              // expiration time
-  })
-  .then(function(response) {
-    console.log("Email sent successfully!", response.status, response.text);
-    alert("Verification code sent to " + email);
-    document.getElementById("verifyBox").style.display = "block";
-  }, function(error) {
-    console.error("Failed to send email:", error);
-    alert("Failed to send verification code. Please try again.");
-  });
-}
+    function checkCode() {
+      const entered = document.getElementById("code").value.trim();
+      if (entered.length === 6 && entered === generatedCode) {
+        alert("Verification successful! Logging in...");
+        window.location.href = "BlueJob/jobs.html";
+      } else if (entered.length === 6 && entered !== generatedCode) {
+        alert("Enter Correct Verification");
+      }
+    }
 
-function checkCode() {
-  const entered = document.getElementById("code").value;
-  if (entered.length === 6 && entered == generatedCode) {
-    alert("Verification successful! Logging in...");
-    window.location.href = "BlueJob/jobs.html";
-  }
-  else if (entered.length === 6 && entered != generatedCode) {
-    alert("Enter Correct Verification")
-  }
-}
-</script>
-
+    document.getElementById("forgotLink").addEventListener("click", function (e) {
+      e.preventDefault();
+      alert("To reset your password, open your signup/forgot-password flow or contact support.");
+    });
+  </script>
 </body>
 </html>

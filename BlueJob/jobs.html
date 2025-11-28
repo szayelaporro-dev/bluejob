@@ -8,7 +8,7 @@
 </head>
 <body>
 
-  <!-- HEADER -->
+  
   <header>
     <div class="logo">BlueJob</div>
 
@@ -20,12 +20,12 @@
       <a href="#">Find Jobs</a>
       <a href="company.html">Companies</a>
       <a href="resources.html">Resources</a>
-      <a href="index.html">LogOut</a>
+      <a href="../index.html">LogOut</a>
       <a class="post-job" id="openPostForm">Post a Job</a>
     </nav>
   </header>
 
-  <!-- POPUP FORM -->
+  
   <div class="popup" id="postJobPopup">
     <div class="popup-content">
       <h3>Post a Job</h3>
@@ -176,7 +176,7 @@
     filters.forEach(f => f.addEventListener('change', filterJobs));
     salaryFilters.forEach(f => f.addEventListener('change', filterJobs));
 
-    // --- POST JOB POPUP ---
+    // --- post job poppu ---
     openPostForm.addEventListener('click', () => popup.classList.add('active'));
     closePopup.addEventListener('click', () => popup.classList.remove('active'));
 
@@ -215,7 +215,7 @@
       filterJobs();
     });
 
-    // --- HIDE POST A JOB FOR JOB SEEKERS ---
+    // --- to hide a post job ---
     window.addEventListener('load', () => {
       const accountType = sessionStorage.getItem('accountType'); // read stored account type
       const postBtn = document.getElementById('openPostForm');
