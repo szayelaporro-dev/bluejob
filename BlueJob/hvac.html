@@ -57,7 +57,7 @@
     </ul>
 
     <a href="#" class="apply-btn" id="openFormBtn">Apply Now</a>
-    <div class="confirmation" id="confirmationMsg">Application Sent!</div>
+    <div class="confirmation" id="confirmationMsg" style="display:none;">Application Sent!</div>
   </main>
 
   <aside>
@@ -73,16 +73,15 @@
 </div>
 
 <!-- Popup Form -->
-<div class="popup-overlay" id="popupForm">
+<div class="popup-overlay" id="popupForm" style="display:none;">
   <div class="popup-form">
     <span class="close-btn" id="closeForm">&times;</span>
     <h3>Apply for HVAC Technician</h3>
     <form id="jobApplicationForm" enctype="multipart/form-data">
-      <input type="text" placeholder="Name" required>
-      <input type="email" placeholder="Email" required>
-      <input type="tel" placeholder="Phone" required>
+      <input type="text" id="applicantName" placeholder="Name" required>
+      <input type="email" id="applicantEmail" placeholder="Email" required>
+      <input type="tel" id="applicantPhone" placeholder="Phone" required>
 
-      
       <label for="fileUpload">Upload Photos or Files:</label>
       <input type="file" id="fileUpload" name="fileUpload" accept="image/*,.pdf,.doc,.docx" multiple required>
 
@@ -91,10 +90,12 @@
   </div>
 </div>
 
-
+<script src="https://unpkg.com/pocketbase@latest/dist/pocketbase.umd.js"></script>
 <script>
   const backBtn = document.getElementById('backBtn');
-  backBtn.addEventListener('click', ()=>{document.referrer?history.back():window.location.href='jobs.html';});
+  backBtn.addEventListener('click', () => {
+    document.referrer ? history.back() : window.location.href = 'jobs.html';
+  });
 
   const openFormBtn = document.getElementById('openFormBtn');
   const popupForm = document.getElementById('popupForm');
@@ -102,9 +103,66 @@
   const jobForm = document.getElementById('jobApplicationForm');
   const confirmationMsg = document.getElementById('confirmationMsg');
 
-  openFormBtn.addEventListener('click',(e)=>{e.preventDefault();popupForm.style.display='flex';confirmationMsg.style.display='none';});
-  closeForm.addEventListener('click',()=>{popupForm.style.display='none';});
-  jobForm.addEventListener('submit',(e)=>{e.preventDefault();popupForm.style.display='none';confirmationMsg.style.display='block';jobForm.reset();});
+  openFormBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    popupForm.style.display = 'flex';
+    confirmationMsg.style.display = 'none';
+  });
+
+  closeForm.addEventListener('click', () => {
+    popupForm.style.display = 'none';
+  });
+
+  // PocketBase client initialization
+  const pb = new PocketBase('http://127.0.0.1:8090');
+
+  // Job name for application
+  const currentJobId = 'HVAC Technician';
+
+  jobForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const name = document.getElementById('applicantName').value.trim();
+    const email = document.getElementById('applicantEmail').value.trim();
+    const phone = document.getElementById('applicantPhone').value.trim();
+    const filesInput = document.getElementById('fileUpload');
+
+    if (!name || !email || !phone) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+    if (filesInput.files.length === 0) {
+      alert('Please upload at least one file.');
+      return;
+    }
+
+    try {
+      const formData = new FormData();
+      formData.append('name', name);
+      formData.append('email', email);
+      formData.append('phone', phone);
+      formData.append('job', currentJobId);
+
+      // Adjust file field name if needed to match your PocketBase collection schema
+      const fileFieldName = 'file';
+
+      for (const file of filesInput.files) {
+        formData.append(fileFieldName, file, file.name);
+      }
+
+      const record = await pb.collection('applications').create(formData);
+
+      console.log('Application saved:', record);
+
+      popupForm.style.display = 'none';
+      confirmationMsg.style.display = 'block';
+      jobForm.reset();
+
+    } catch (error) {
+      console.error('Failed to submit application:', error);
+      alert('Failed to submit application. Please try again later.');
+    }
+  });
 </script>
 </body>
 </html>

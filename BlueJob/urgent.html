@@ -56,7 +56,7 @@
     </ul>
 
     <a href="#" class="apply-btn" id="openFormBtn">Apply Now</a>
-    <div class="confirmation" id="confirmationMsg">Application Sent!</div>
+    <div class="confirmation" id="confirmationMsg" style="display:none;">Application Sent!</div>
   </main>
 
   <aside>
@@ -72,7 +72,7 @@
 </div>
 
 <!-- Popup Form -->
-<div class="popup-overlay" id="popupForm">
+<div class="popup-overlay" id="popupForm" style="display:none;">
   <div class="popup-form">
     <span class="close-btn" id="closeForm">&times;</span>
     <h3>Apply for Master Electrician</h3>
@@ -81,7 +81,6 @@
       <input type="email" placeholder="Email" required>
       <input type="tel" placeholder="Phone" required>
 
-      
       <label for="fileUpload">Upload Photos or Files:</label>
       <input type="file" id="fileUpload" name="fileUpload" accept="image/*,.pdf,.doc,.docx" multiple required>
 
@@ -92,7 +91,9 @@
 
 <script>
   const backBtn = document.getElementById('backBtn');
-  backBtn.addEventListener('click', ()=>{document.referrer?history.back():window.location.href='jobs.html';});
+  backBtn.addEventListener('click', () => {
+    document.referrer ? history.back() : window.location.href = 'jobs.html';
+  });
 
   const openFormBtn = document.getElementById('openFormBtn');
   const popupForm = document.getElementById('popupForm');
@@ -100,9 +101,22 @@
   const jobForm = document.getElementById('jobApplicationForm');
   const confirmationMsg = document.getElementById('confirmationMsg');
 
-  openFormBtn.addEventListener('click',(e)=>{e.preventDefault();popupForm.style.display='flex';confirmationMsg.style.display='none';});
-  closeForm.addEventListener('click',()=>{popupForm.style.display='none';});
-  jobForm.addEventListener('submit',(e)=>{e.preventDefault();popupForm.style.display='none';confirmationMsg.style.display='block';jobForm.reset();});
+  openFormBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    popupForm.style.display = 'flex';
+    confirmationMsg.style.display = 'none';
+  });
+
+  closeForm.addEventListener('click', () => {
+    popupForm.style.display = 'none';
+  });
+
+  jobForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    popupForm.style.display = 'none';
+    confirmationMsg.style.display = 'block';
+    jobForm.reset();
+  });
 </script>
 </body>
 </html>

@@ -4,9 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Login - BlueJob</title>
+  <link rel="stylesheet" href="./BlueJob/login.php">
   <style>
-    /* Reset and box-sizing */
-    *, *::before, *::after {
+     *, *::before, *::after {
       box-sizing: border-box;
     }
     body {
@@ -45,7 +45,7 @@
       backdrop-filter: saturate(180%) blur(15px);
       border-radius: 18px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.12);
-      padding: 40px 35px;
+      padding: 25px 35px;
       max-width: 420px;
       width: 100%;
       text-align: center;
@@ -242,7 +242,6 @@
       }
     }
 
-    
   </style>
 </head>
 <body>
@@ -255,49 +254,38 @@
       <h2 id="login-heading">Login</h2>
       <p class="desc">Welcome to BlueJob — find jobs faster, manage applications, and connect with employers.</p>
 
-      <div class="input-row">
-        <label for="email">Email</label>
-        <input id="email" type="email" placeholder="Enter your email" autocomplete="email" required />
-      </div>
-
-      <div class="input-row">
-        <label for="password">Password</label>
-        <div class="pwd-wrap">
-          <input id="password" type="password" placeholder="Enter your password" autocomplete="current-password" required />
-          <button type="button" id="toggleBtn" class="pwd-toggle" aria-pressed="false" aria-label="Show password">Show</button>
-        </div>
-      </div>
-
-      <div class="actions">
-        <label class="remember">
-          <input id="remember" type="checkbox" /> Remember me
-        </label>
-        <a href="#" id="forgotLink" class="link">Forgot password?</a>
-      </div>
-
-      <button class="button" onclick="sendCode()">Login</button>
-
-      <div id="verifyBox" style="display:none;">
+      <form action="login.php" method="POST">
         <div class="input-row">
-          <label for="code">Verification Code</label>
-          <input id="code" type="text" maxlength="6" placeholder="Enter verification code" oninput="checkCode()" autocomplete="one-time-code" />
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" placeholder="Enter your email" autocomplete="email" required />
         </div>
-        <p class="hint">A 6-digit code was sent to your email. It expires in 15 minutes.</p>
-      </div>
+
+        <div class="input-row">
+          <label for="password">Password</label>
+          <div class="pwd-wrap">
+            <input id="password" name="password" type="password" placeholder="Enter your password" autocomplete="current-password" required />
+            <button type="button" id="toggleBtn" class="pwd-toggle" aria-pressed="false" aria-label="Show password">Show</button>
+          </div>
+        </div>
+
+        <div class="actions">
+          <label class="remember">
+            <input id="remember" type="checkbox" name="remember" /> Remember me
+          </label>
+          <a href="#" id="forgotLink" class="link">Forgot password?</a>
+        </div>
+
+        <button class="button" type="submit">Login</button>
+      </form>
 
       <p class="signup-text">
-        Don’t have an account? <a href="BlueJob/signup.html" class="link">Sign up</a>
+        Don’t have an account? <a href="./BlueJob/signup.html" class="link">Sign up</a>
       </p>
     </section>
   </main>
 
-  <!-- EmailJS -->
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script>
-    let generatedCode = "";
-    emailjs.init("9t9hQw3XFYkpeP45U");
-
-    // Password toggle
+    // Password toggle script remains the same
     document.getElementById("toggleBtn").addEventListener("click", () => {
       const pass = document.getElementById("password");
       const btn = document.getElementById("toggleBtn");
@@ -312,50 +300,9 @@
       }
     });
 
-    function sendCode() {
-      const email = document.getElementById("email").value.trim();
-      if (!email) {
-        alert("Please enter your email first.");
-        return;
-      }
-
-      generatedCode = String(Math.floor(100000 + Math.random() * 900000));
-
-      const expiration = new Date(Date.now() + 15 * 60 * 1000);
-      const time = expiration.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-
-      emailjs
-        .send("service_ltkx36w", "template_yeq3txw", {
-          email: email,
-          passcode: generatedCode,
-          time: time,
-        })
-        .then(function (response) {
-          console.log("Email sent successfully!", response.status, response.text);
-          alert("Verification code sent to " + email);
-          document.getElementById("verifyBox").style.display = "block";
-          const codeInput = document.getElementById("code");
-          setTimeout(() => codeInput.focus(), 300);
-        })
-        .catch(function (error) {
-          console.error("Failed to send email:", error);
-          alert("Failed to send verification code. Please try again.");
-        });
-    }
-
-    function checkCode() {
-      const entered = document.getElementById("code").value.trim();
-      if (entered.length === 6 && entered === generatedCode) {
-        alert("Verification successful! Logging in...");
-        window.location.href = "BlueJob/jobs.html";
-      } else if (entered.length === 6 && entered !== generatedCode) {
-        alert("Enter Correct Verification");
-      }
-    }
-
     document.getElementById("forgotLink").addEventListener("click", function (e) {
       e.preventDefault();
-      alert("To reset your password, open your signup/forgot-password flow or contact support.");
+      alert("To reset your password, please contact support.");
     });
   </script>
 </body>

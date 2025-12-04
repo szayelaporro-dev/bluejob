@@ -1,37 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BlueJob - All Jobs</title>
-  <link rel="stylesheet" href="jobs.css">
+  <link rel="stylesheet" href="jobs.css" />
 </head>
 <body>
-
-  
   <header>
     <div class="logo">BlueJob</div>
 
     <div class="search-bar">
-      <input type="text" id="search" placeholder="Search jobs, companies, or skills...">
+      <input type="text" id="search" placeholder="Search jobs, companies, or skills..." />
     </div>
 
     <nav>
       <a href="#">Find Jobs</a>
       <a href="company.html">Companies</a>
       <a href="resources.html">Resources</a>
-      <a href="../index.html">LogOut</a>
+      <a href="#" id="logoutBtn">LogOut</a>
       <a class="post-job" id="openPostForm">Post a Job</a>
     </nav>
   </header>
 
-  
   <div class="popup" id="postJobPopup">
     <div class="popup-content">
       <h3>Post a Job</h3>
-      <input type="text" id="jobTitle" placeholder="Job Title" required>
-      <input type="text" id="companyName" placeholder="Company Name" required>
-      <input type="text" id="location" placeholder="Location" required>
+      <input type="text" id="jobTitle" placeholder="Job Title" required />
+      <input type="text" id="companyName" placeholder="Company Name" required />
+      <input type="text" id="location" placeholder="Location" required />
       <select id="category">
         <option value="electrical">Electrical</option>
         <option value="construction">Construction</option>
@@ -42,30 +39,29 @@
         <option value="full-time">Full-time</option>
         <option value="part-time">Part-time</option>
       </select>
-      <input type="text" id="salary" placeholder="Salary (e.g. ₱200/hour)" required>
+      <input type="text" id="salary" placeholder="Salary (e.g. ₱200/hour)" required />
       <button id="submitJob">Post</button>
       <button class="close-popup" id="closePopup">Cancel</button>
     </div>
   </div>
 
-  <!-- JOB PAGE -->
   <div class="container">
     <aside>
       <h3>Filter Jobs</h3>
       <h4>Trade Categories</h4>
-      <label><input type="checkbox" value="electrical" class="filter"> Electrical</label>
-      <label><input type="checkbox" value="construction" class="filter"> Construction</label>
-      <label><input type="checkbox" value="hvac" class="filter"> HVAC</label>
-      <label><input type="checkbox" value="plumbing" class="filter"> Plumbing</label>
+      <label><input type="checkbox" value="electrical" class="filter" /> Electrical</label>
+      <label><input type="checkbox" value="construction" class="filter" /> Construction</label>
+      <label><input type="checkbox" value="hvac" class="filter" /> HVAC</label>
+      <label><input type="checkbox" value="plumbing" class="filter" /> Plumbing</label>
 
       <h4>Job Type</h4>
-      <label><input type="checkbox" value="full-time" class="filter"> Full-time</label>
-      <label><input type="checkbox" value="part-time" class="filter"> Part-time</label>
+      <label><input type="checkbox" value="full-time" class="filter" /> Full-time</label>
+      <label><input type="checkbox" value="part-time" class="filter" /> Part-time</label>
 
       <h4>Salary Range</h4>
-      <label><input type="checkbox" value="low" class="filter-salary"> ₱60-80/hour</label>
-      <label><input type="checkbox" value="mid" class="filter-salary"> ₱80-120/hour</label>
-      <label><input type="checkbox" value="high" class="filter-salary"> ₱120+/hour</label>
+      <label><input type="checkbox" value="low" class="filter-salary" /> ₱60-80/hour</label>
+      <label><input type="checkbox" value="mid" class="filter-salary" /> ₱80-120/hour</label>
+      <label><input type="checkbox" value="high" class="filter-salary" /> ₱120+/hour</label>
     </aside>
 
     <main>
@@ -82,7 +78,6 @@
           <a href="electrician.html" class="view-btn">View Details</a>
         </div>
 
-        <!-- Other jobs restored -->
         <div class="job-card" data-category="construction" data-type="part-time" data-salary="mid">
           <div class="job-header">
             <h3>Construction Worker</h3>
@@ -136,7 +131,18 @@
     </main>
   </div>
 
+  <script src="https://unpkg.com/pocketbase@latest/dist/pocketbase.umd.js"></script>
+
   <script>
+    const pb = new PocketBase("http://127.0.0.1:8090");
+
+    // Redirect to login if not authenticated
+    window.addEventListener('load', () => {
+      if (!pb.authStore.isValid) {
+        window.location.href = 'test.html';
+      }
+    });
+
     const searchInput = document.getElementById('search');
     const filters = document.querySelectorAll('.filter');
     const salaryFilters = document.querySelectorAll('.filter-salary');
@@ -145,6 +151,7 @@
     const popup = document.getElementById('postJobPopup');
     const closePopup = document.getElementById('closePopup');
     const submitJob = document.getElementById('submitJob');
+    const logoutBtn = document.getElementById('logoutBtn');
 
     function filterJobs() {
       const searchTerm = searchInput.value.toLowerCase();
@@ -176,28 +183,29 @@
     filters.forEach(f => f.addEventListener('change', filterJobs));
     salaryFilters.forEach(f => f.addEventListener('change', filterJobs));
 
-    // --- post job poppu ---
     openPostForm.addEventListener('click', () => popup.classList.add('active'));
     closePopup.addEventListener('click', () => popup.classList.remove('active'));
 
     submitJob.addEventListener('click', () => {
-      const title = document.getElementById('jobTitle').value;
-      const company = document.getElementById('companyName').value;
-      const location = document.getElementById('location').value;
+      const title = document.getElementById('jobTitle').value.trim();
+      const company = document.getElementById('companyName').value.trim();
+      const location = document.getElementById('location').value.trim();
       const category = document.getElementById('category').value;
       const type = document.getElementById('jobType').value;
-      const salary = document.getElementById('salary').value;
+      const salary = document.getElementById('salary').value.trim();
 
       if (!title || !company || !location || !salary) {
         alert('Please fill in all fields.');
         return;
       }
 
+      const salaryCategory = salary.includes('₱120') ? 'high' : (salary.includes('₱80') ? 'mid' : 'low');
+
       const card = document.createElement('div');
       card.classList.add('job-card');
       card.dataset.category = category;
       card.dataset.type = type;
-      card.dataset.salary = salary.includes('₱120') ? 'high' : 'low'; // simple detect
+      card.dataset.salary = salaryCategory;
 
       card.innerHTML = `
         <div class="job-header">
@@ -215,15 +223,20 @@
       filterJobs();
     });
 
-    // --- to hide a post job ---
+    // Hide "Post a Job" button for Job Seekers
     window.addEventListener('load', () => {
-      const accountType = sessionStorage.getItem('accountType'); // read stored account type
-      const postBtn = document.getElementById('openPostForm');
-      if (accountType === 'Job Seeker' && postBtn) {
-        postBtn.style.display = 'none';
+      const accountType = sessionStorage.getItem('accountType'); // or get it from authStore.model.role
+      if (accountType === 'Job Seeker') {
+        openPostForm.style.display = 'none';
       }
     });
-  </script>
 
+    // Logout button clears auth and redirects
+    logoutBtn.addEventListener('click', () => {
+      pb.authStore.clear();
+      sessionStorage.clear();
+      window.location.href = 'test.html';
+    });
+  </script>
 </body>
 </html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Employer Applications - BlueJob</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      background: linear-gradient(135deg, #0b76ff 0%, #4aa8ff 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      color: #222;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #0b76ff;
+      color: white;
+      padding: 15px 30px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+    header .logo {
+      font-size: 1.8em;
+      font-weight: 900;
+      letter-spacing: 1px;
+    }
+    header button {
+      background: #e53935;
+      border: none;
+      padding: 10px 18px;
+      color: white;
+      cursor: pointer;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 1em;
+      transition: background-color 0.3s ease;
+    }
+    header button:hover {
+      background: #b71c1c;
+    }
+    main {
+      flex: 1;
+      padding: 30px 40px;
+      max-width: 900px;
+      margin: 0 auto 40px;
+      background: white;
+      border-radius: 14px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+    }
+    main h2 {
+      margin-top: 0;
+      margin-bottom: 25px;
+      font-weight: 700;
+      font-size: 28px;
+      color: #0b76ff;
+      border-bottom: 3px solid #0b76ff;
+      padding-bottom: 8px;
+    }
+    .application {
+      border: 1px solid #e1eaff;
+      border-radius: 10px;
+      padding: 20px 25px;
+      margin-bottom: 20px;
+      box-shadow: 0 3px 8px rgba(11, 118, 255, 0.1);
+      transition: box-shadow 0.25s ease;
+    }
+    .application:hover {
+      box-shadow: 0 8px 22px rgba(11, 118, 255, 0.2);
+    }
+    .application p {
+      margin: 8px 0;
+      font-size: 16px;
+      line-height: 1.4;
+    }
+    .application strong {
+      color: #0b76ff;
+    }
+    .application a {
+      color: #0b76ff;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .application a:hover {
+      text-decoration: underline;
+    }
+    .files-list {
+      list-style: disc inside;
+      margin-top: 6px;
+      margin-bottom: 0;
+      padding-left: 18px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">BlueJob - Employer Applications</div>
+  <button id="logoutBtn">Logout</button>
+</header>
+
+<main id="content">
+  <h2>Loading your job applications...</h2>
+</main>
+
+<script src="https://unpkg.com/pocketbase@latest/dist/pocketbase.umd.js"></script>
+<script>
+  const pb = new PocketBase("http://127.0.0.1:8090");
+  const content = document.getElementById('content');
+  const logoutBtn = document.getElementById('logoutBtn');
+
+  if (!pb.authStore.isValid) {
+    window.location.href = 'test.html'; // Login page
+  }
+
+  logoutBtn.addEventListener('click', () => {
+    pb.authStore.clear();
+    window.location.href = 'test.html'; // Login page
+  });
+
+  async function loadApplications() {
+    try {
+      content.innerHTML = '<h2>Loading your job applications...</h2>';
+
+      const applications = await pb.collection('applications').getFullList(200, {
+        sort: '-created'
+      });
+
+      if (applications.length === 0) {
+        content.innerHTML = '<h2>No applications found.</h2>';
+        return;
+      }
+
+      content.innerHTML = '<h2>Applicant Information</h2>';
+
+      applications.forEach(app => {
+        let filesHTML = '';
+        const fileFieldName = 'file';  // adjust if your field name differs
+
+        if (app[fileFieldName]) {
+          if (Array.isArray(app[fileFieldName])) {
+            filesHTML = '<strong>Uploaded Files:</strong><ul class="files-list">';
+            app[fileFieldName].forEach(fileName => {
+              const url = pb.getFileUrl(app, fileFieldName);
+              filesHTML += `<li><a href="${url}" target="_blank" rel="noopener">${fileName}</a></li>`;
+            });
+            filesHTML += '</ul>';
+          } else if (typeof app[fileFieldName] === 'string') {
+            const url = pb.getFileUrl(app, fileFieldName);
+            filesHTML = `<strong>Uploaded File:</strong> <a href="${url}" target="_blank" rel="noopener">${app[fileFieldName]}</a>`;
+          }
+        }
+
+        content.innerHTML += `
+          <div class="application">
+            <p><strong>Name:</strong> ${app.name || 'N/A'}</p>
+            <p><strong>Email:</strong> ${app.email || 'N/A'}</p>
+            <p><strong>Phone:</strong> ${app.phone || 'N/A'}</p>
+            <p><strong>Job Title:</strong> ${app.job || 'N/A'}</p>
+            <p>${filesHTML}</p>
+          </div>
+        `;
+      });
+
+    } catch (err) {
+      console.error('Error loading applications:', err);
+      content.innerHTML = '<p style="color:red;">Error loading applications. Please try again later.</p>';
+    }
+  }
+
+  loadApplications();
+</script>
+
+</body>
+</html>

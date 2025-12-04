@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard</title>
+  <script src="https://unpkg.com/pocketbase@0.15.1/dist/pocketbase.min.js"></script>
+</head>
+<body>
+
+  <h1>Welcome!</h1>
+  <button id="logoutBtn">Logout</button>
+
+  <script>
+    // Declare pb globally on window to be accessible everywhere
+    window.pb = new PocketBase("http://127.0.0.1:8090");
+
+    if (!window.pb.authStore.isValid) {
+      window.location.href = "test.html";
+    }
+
+    // Use event listener instead of inline onclick for better scoping
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      window.pb.authStore.clear();
+      window.location.href = "test.html";
+    });
+  </script>
+
+</body>
+</html>
